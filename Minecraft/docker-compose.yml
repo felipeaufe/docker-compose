@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mc:
+    image: itzg/minecraft-server
+    container_name: Minecraft
+    ports:
+      # expose the Minecraft server port outside of container
+      - "25565:25565"
+    environment:
+      # REQUIRED for all types
+      EULA: "TRUE"
+      # Set server type (vs the default of vanilla)
+      TYPE: FORGE
+      DEBUG: "true"
+    volumes:
+      # use a named, managed volume for data volume
+      - /docker-server-data/minecraft-forge/data:/data
+      # attach local host directory "mods" in same directory as this compose file
+      # all mods in this directory get copied into /data/mods at startup
+      - /docker-server-data/minecraft-forge/mods:/mods:ro
+
+volumes:
+  # declared the named volume, but use default/local storage engine
+  mc_forge: {}
